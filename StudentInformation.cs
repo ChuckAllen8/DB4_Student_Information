@@ -85,7 +85,7 @@ namespace DB4_Student_Information
                 }
                 else
                 {
-                    Console.Write($"\nThat student does not exist. Please try again. \nEnter a number, 1-{names.Length}: ");
+                    Console.Write($"\nThat student does not exist. Please try again. \nEnter \"(S)how All\" or a number, 1-{names.Length}: ");
                 }
                 input = Console.ReadLine();
             }
