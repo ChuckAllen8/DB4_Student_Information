@@ -40,10 +40,10 @@ namespace DB4_Student_Information
         {
             bool showAgain;
 
-            Console.Write("Welcome to our class! ");
             do
             {
-                Console.WriteLine("Which student would you like to learn more about?");
+                Console.Clear();
+                Console.WriteLine("Welcome to our class! Which student would you like to learn more about?");
                 GetStudentChoice();
 
                 Console.WriteLine($"\nStudent {selectedStudent+1} is {names[selectedStudent]}. What would you like to know about {names[selectedStudent].Split(" ")[0]}?");
@@ -89,7 +89,7 @@ namespace DB4_Student_Information
                 }
                 input = Console.ReadLine();
             }
-            selectedStudent--; //sets it to the index
+            selectedStudent--; //sets it to the index of the student.
         }
 
         private int GetDataChoice()
