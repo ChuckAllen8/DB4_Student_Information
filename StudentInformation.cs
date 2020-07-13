@@ -18,6 +18,9 @@ namespace DB4_Student_Information
 
         private int selectedStudent;
         private const int CLASS_SIZE = 14;
+        private const int BOTH_SELECTION = 3;
+        private const int TITLE_SELECTION = 2;
+        private const int FOOD_SELECTION = 1;
 
         public StudentInformation()
         {
@@ -50,13 +53,13 @@ namespace DB4_Student_Information
                 
                 switch (GetDataChoice())
                 {
-                    case 1:
+                    case FOOD_SELECTION:
                         Console.WriteLine($"{names[selectedStudent].Split(" ")[0]}'s favorite candy is {foods[selectedStudent]}.");
                         break;
-                    case 2:
+                    case TITLE_SELECTION:
                         Console.WriteLine($"{names[selectedStudent].Split(" ")[0]}'s previous title was {titles[selectedStudent]}.");
                         break;
-                    case 3:
+                    case BOTH_SELECTION:
                         Console.WriteLine($"{names[selectedStudent].Split(" ")[0]}'s favorite candy is {foods[selectedStudent]} and previous title was {titles[selectedStudent]}.");
                         break;
                     default:
@@ -106,15 +109,15 @@ namespace DB4_Student_Information
 
             if (foodInputs.Contains(userChoice))
             {
-                return 1;
+                return FOOD_SELECTION;
             }
             else if (titleInputs.Contains(userChoice))
             {
-                return 2;
+                return TITLE_SELECTION;
             }
             else
             {
-                return 3;
+                return BOTH_SELECTION;
             }
         }
 
