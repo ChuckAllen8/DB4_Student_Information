@@ -18,9 +18,13 @@ namespace DB4_Student_Information
 
         private int selectedStudent;
         private const int CLASS_SIZE = 14;
-        private const int BOTH_SELECTION = 3;
-        private const int TITLE_SELECTION = 2;
-        private const int FOOD_SELECTION = 1;
+
+        private enum Selection
+        {
+            Food = 1,
+            Title,
+            Both
+        }
 
         public StudentInformation()
         {
@@ -34,9 +38,9 @@ namespace DB4_Student_Information
                 "Desktop Support Technician", "Desktop Support Technician", "Desktop Support Technician", "Desktop Support Technician", "Desktop Support Technician", 
                 "Desktop Support Technician", "Desktop Support Technician", "Desktop Support Technician", "Desktop Support Technician", "Desktop Support Technician" };
 
-            foodInputs = new string[] { "FAVORITE CANDY", "CANDY", "FAV", "FAVORITE", "FOOD", "F", "C" };
-            titleInputs = new string[] { "PREVIOUS TITLE", "TITLE", "PREVIOUS", "PREV", "JOB", "P", "T" };
-            bothInputs = new string[] { "BOTH", "B", "ALL", "A" };
+            foodInputs = new string[] { "FAVORITE CANDY", "CANDY", "FAV", "FAVORITE", "FOOD", "F", "C", "1" };
+            titleInputs = new string[] { "PREVIOUS TITLE", "TITLE", "PREVIOUS", "PREV", "JOB", "P", "T", "2" };
+            bothInputs = new string[] { "BOTH", "B", "ALL", "A", "3" };
         }
 
         public void Start()
@@ -53,17 +57,17 @@ namespace DB4_Student_Information
                 
                 switch (GetDataChoice())
                 {
-                    case FOOD_SELECTION:
+                    case Selection.Food:
                         Console.WriteLine($"{names[selectedStudent].Split(" ")[0]}'s favorite candy is {foods[selectedStudent]}.");
                         break;
-                    case TITLE_SELECTION:
+                    case Selection.Title:
                         Console.WriteLine($"{names[selectedStudent].Split(" ")[0]}'s previous title was {titles[selectedStudent]}.");
                         break;
-                    case BOTH_SELECTION:
+                    case Selection.Both:
                         Console.WriteLine($"{names[selectedStudent].Split(" ")[0]}'s favorite candy is {foods[selectedStudent]} and previous title was {titles[selectedStudent]}.");
                         break;
                     default:
-                        break;
+                        throw new InvalidOperationException();
                 }
 
                 Console.WriteLine();
@@ -74,10 +78,10 @@ namespace DB4_Student_Information
         private void GetStudentChoice()
         {
             Console.Write($"Enter \"(S)how All\" or a number 1-{names.Length}: ");
-            string input = Console.ReadLine();
+            string input = Console.ReadLine().ToUpper().Trim();
             while (!int.TryParse(input, out selectedStudent) || (selectedStudent < 1 || selectedStudent > names.Length))
             {
-                if (input.ToUpper() == "SHOW ALL" || input.ToUpper() == "S")
+                if (input == "SHOW ALL" || input == "S" || input == "SHOW")
                 {
                     Console.WriteLine("The students are:");
                     for(int index = 0; index < names.Length; index++)
@@ -90,51 +94,51 @@ namespace DB4_Student_Information
                 {
                     Console.Write($"\nThat student does not exist. Please try again. \nEnter \"(S)how All\" or a number, 1-{names.Length}: ");
                 }
-                input = Console.ReadLine();
+                input = Console.ReadLine().ToUpper().Trim();
             }
             selectedStudent--; //sets it to the index of the student.
         }
 
-        private int GetDataChoice()
+        private Selection GetDataChoice()
         {
             Console.Write("Enter \"Favorite Candy\" or \"Previous Title\" or \"Both\": ");
-            string userChoice = Console.ReadLine().ToUpper();
+            string userChoice = Console.ReadLine().ToUpper().Trim();
             while (!foodInputs.Contains(userChoice) && !titleInputs.Contains(userChoice) && !bothInputs.Contains(userChoice))
             {
                 Console.Write("\n\nThat data does not exist. Please try again. \nEnter \"Favorite Candy\" or \"Previous Title\" or \"Both\": ");
-                userChoice = Console.ReadLine().ToUpper();
+                userChoice = Console.ReadLine().ToUpper().Trim(); ;
             }
 
             Console.WriteLine();
 
             if (foodInputs.Contains(userChoice))
             {
-                return FOOD_SELECTION;
+                return Selection.Food;
             }
             else if (titleInputs.Contains(userChoice))
             {
-                return TITLE_SELECTION;
+                return Selection.Title;
             }
             else
             {
-                return BOTH_SELECTION;
+                return Selection.Both;
             }
         }
 
         private bool RunAgain()
         {
             Console.Write("Would you like to know about another student? (enter \"yes\" or \"no\"): ");
-            string choice = Console.ReadLine().ToUpper();
+            string choice = Console.ReadLine().ToUpper().Trim();
 
-            while (!((choice == "YES") || (choice =="NO") || (choice == "Y") || (choice == "N")))
+            while (!((choice == "YES") || (choice =="NO") || (choice == "Y") || (choice == "N") || (choice == "1") || (choice == "2")))
             {
                 Console.Write("That was not a valid option. Enter \"yes\" or \"no\"): ");
-                choice = Console.ReadLine().ToUpper();
+                choice = Console.ReadLine().ToUpper().Trim();
             }
 
             Console.WriteLine();
 
-            if(choice == "YES" || choice == "Y")
+            if(choice == "YES" || choice == "Y" || choice == "1")
             {
                 return true;
             }
